@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Las Normas y su Función en la Sociedad</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" xintegrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .hero-bg {
+            background-color: #1a202c;
+            background-image: linear-gradient(to right, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.4)), url('https://placehold.co/1920x1080/2c3e50/ffffff?text=Sociedad');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .section-title {
+            font-weight: 900;
+            font-size: 2.25rem; /* text-4xl */
+            letter-spacing: -0.05em;
+            text-align: center;
+            margin-bottom: 2.5rem; /* mb-10 */
+        }
+        
+        .card {
+             background-color: white;
+             border-radius: 0.75rem; /* rounded-xl */
+             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-lg */
+             padding: 1.5rem; /* p-6 */
+             transition: transform 0.3s ease, box-shadow 0.3s ease;
+             height: 100%;
+             display: flex;
+             flex-direction: column;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); /* shadow-2xl */
+        }
+        .card-icon {
+            font-size: 2.5rem; /* text-4xl */
+            margin-bottom: 1rem; /* mb-4 */
+        }
+
+        /* Estilo para el proceso de ley */
+        .timeline-item {
+            position: relative;
+            padding-bottom: 2rem;
+            padding-left: 2.5rem;
+            border-left: 2px solid #e2e8f0; /* gray-300 */
+        }
+        .timeline-item:last-child {
+            border-left: 2px solid transparent;
+        }
+        .timeline-dot {
+            position: absolute;
+            left: -0.7rem;
+            top: 0.1rem;
+            height: 1.25rem;
+            width: 1.25rem;
+            background-color: #3b82f6; /* blue-500 */
+            border-radius: 9999px; /* rounded-full */
+            border: 2px solid white;
+        }
+
+        .quiz-option {
+            display: block;
+            width: 100%;
+            text-align: left;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            background-color: #f3f4f6; /* gray-100 */
+            transition: background-color 0.2s;
+            border: 1px solid #e5e7eb; /* gray-200 */
+        }
+        .quiz-option:hover {
+            background-color: #dbeafe; /* blue-100 */
+        }
+        .quiz-option.correct {
+            background-color: #dcfce7; /* green-100 */
+            border-color: #22c55e; /* green-500 */
+            color: #166534; /* green-800 */
+        }
+        .quiz-option.incorrect {
+            background-color: #fee2e2; /* red-100 */
+            border-color: #ef4444; /* red-500 */
+            color: #991b1b; /* red-800 */
+        }
+
+    </style>
+</head>
+
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- Header & Navigation -->
+    <header class="bg-white/80 backdrop-blur-sm shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <div class="font-bold text-xl text-blue-600">
+                <i class="fas fa-balance-scale mr-2"></i>Normas y Sociedad
+            </div>
+            <div class="hidden md:flex space-x-6 items-center">
+                <a href="#historia" class="text-gray-600 hover:text-blue-600 transition">Historia</a>
+                <a href="#tipos" class="text-gray-600 hover:text-blue-600 transition">Tipos</a>
+                <a href="#sanciones" class="text-gray-600 hover:text-blue-600 transition">Sanción</a>
+                <a href="#espacio-publico" class="text-gray-600 hover:text-blue-600 transition">Espacio Público</a>
+                <a href="#legitimidad" class="text-gray-600 hover:text-blue-600 transition">Legitimidad</a>
+                <a href="#derechos-deberes" class="text-gray-600 hover:text-blue-600 transition">Derechos</a>
+                <a href="#quiz" class="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition">Test</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden text-gray-700 focus:outline-none">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
+        </nav>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden px-6 pt-2 pb-4">
+            <a href="#historia" class="block py-2 text-gray-600 hover:text-blue-600">Historia</a>
+            <a href="#tipos" class="block py-2 text-gray-600 hover:text-blue-600">Tipos</a>
+            <a href="#sanciones" class="block py-2 text-gray-600 hover:text-blue-600">Sanción</a>
+            <a href="#espacio-publico" class="block py-2 text-gray-600 hover:text-blue-600">Espacio Público</a>
+            <a href="#legitimidad" class="block py-2 text-gray-600 hover:text-blue-600">Legitimidad</a>
+            <a href="#derechos-deberes" class="block py-2 text-gray-600 hover:text-blue-600">Derechos</a>
+            <a href="#quiz" class="block mt-2 text-center bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700">Test</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-bg text-white">
+        <div class="container mx-auto px-6 py-24 md:py-32 text-center">
+            <h1 class="text-4xl md:text-6xl font-black mb-4 leading-tight">Las Normas y su Función en la Sociedad</h1>
+            <p class="text-lg md:text-xl max-w-3xl mx-auto opacity-90">
+                Las normas permiten lograr una convivencia armónica y controlar conductas que pueden ser perjudiciales para los demás. Exploremos su historia, tipos y función.
+            </p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 py-16">
+
+        <!-- Section 1: History -->
+        <section id="historia" class="py-16">
+            <h2 class="section-title">Antecedentes Históricos de las Normas</h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="card">
+                    <i class="fas fa-users card-icon text-orange-500"></i>
+                    <h3 class="text-xl font-bold mb-2">Primeros Grupos Humanos</h3>
+                    <p class="text-gray-600 flex-grow">Normas orales y costumbres para la supervivencia (alimento, abrigo, protección). De alcance limitado.</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-scroll card-icon text-yellow-600"></i>
+                    <h3 class="text-xl font-bold mb-2">Sociedades Complejas</h3>
+                    <p class="text-gray-600 flex-grow">Aparecen normas escritas o códigos (como el de Hammurabi) para organizar sociedades más grandes y controlar territorios extensos.</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-chess-rook card-icon text-gray-600"></i>
+                    <h3 class="text-xl font-bold mb-2">Edad Media y Monarquías</h3>
+                    <p class="text-gray-600 flex-grow">Las normas obligaban a los siervos a pagar tributos a los señores feudales. Luego, el poder se concentró en el rey.</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-landmark card-icon text-blue-600"></i>
+                    <h3 class="text-xl font-bold mb-2">Estados Modernos</h3>
+                    <p class="text-gray-600 flex-grow">La burguesía reclama igualdad y libertad, dando origen a los Estados modernos con constituciones y derechos para los ciudadanos.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Types of Norms -->
+        <section id="tipos" class="py-16 bg-gray-100 -mx-6 px-6">
+            <h2 class="section-title">Tipos de Normas</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="card border-t-4 border-teal-500">
+                    <div class="text-center">
+                        <i class="fas fa-handshake card-icon text-teal-500"></i>
+                        <h3 class="text-2xl font-bold mb-3">Normas Sociales</h3>
+                        <p class="text-gray-500 mb-4">Usos y costumbres que una sociedad considera apropiados. Varían con el tiempo y la cultura.</p>
+                    </div>
+                    <p class="text-gray-700 flex-grow"><strong>Ejemplo:</strong> Ceder el asiento a personas que lo necesitan en el transporte público. Su incumplimiento puede generar un reproche.</p>
+                </div>
+                <div class="card border-t-4 border-purple-500">
+                    <div class="text-center">
+                        <i class="fas fa-heart card-icon text-purple-500"></i>
+                        <h3 class="text-2xl font-bold mb-3">Normas Morales</h3>
+                        <p class="text-gray-500 mb-4">Reglas que valoran las acciones como buenas o malas, permitiendo diferenciar lo correcto de lo incorrecto.</p>
+                    </div>
+                    <p class="text-gray-700 flex-grow"><strong>Ejemplo:</strong> La Declaración Universal de los Derechos Humanos establece criterios morales universales para proteger la dignidad humana en todo el mundo.</p>
+                </div>
+                <div class="card border-t-4 border-red-500">
+                    <div class="text-center">
+                        <i class="fas fa-gavel card-icon text-red-500"></i>
+                        <h3 class="text-2xl font-bold mb-3">Normas Jurídicas (Leyes)</h3>
+                        <p class="text-gray-500 mb-4">Normas obligatorias dictadas por el Estado. Su incumplimiento conlleva una sanción formal.</p>
+                    </div>
+                    <p class="text-gray-700 flex-grow"><strong>Características:</strong> Son obligatorias, generales (para todos) e irretroactivas (no se aplican a hechos pasados). La Constitución es la ley suprema.</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Section 3: Sanctions -->
+        <section id="sanciones" class="py-16">
+            <h2 class="section-title">Obligatoriedad y Sanción</h2>
+            <p class="text-center max-w-2xl mx-auto mb-10 text-gray-600">Toda norma tiene un grado de obligatoriedad, y su incumplimiento trae consigo una sanción, que varía según el tipo de norma infringida.</p>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="card">
+                    <i class="fas fa-comments card-icon text-teal-500"></i>
+                    <h3 class="text-xl font-bold mb-2">Sanción Social</h3>
+                    <p class="text-gray-600 flex-grow">Varía según el contexto. Puede ser un llamado de atención, un reproche, destrato o aislamiento social por parte de la comunidad.</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-bullhorn card-icon text-purple-500"></i>
+                    <h3 class="text-xl font-bold mb-2">Sanción Moral</h3>
+                    <p class="text-gray-600 flex-grow">Es una sanción muy dura que afecta a toda la sociedad. Puede ser un repudio público, como los "escraches" a represores de la dictadura, quienes a pesar de recibir un indulto legal, no recibieron el perdón moral de la sociedad.</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-file-invoice-dollar card-icon text-red-500"></i>
+                    <h3 class="text-xl font-bold mb-2">Sanción Jurídica</h3>
+                    <p class="text-gray-600 flex-grow">El incumplimiento siempre trae una sanción fijada por la ley y aplicada por el Estado. Puede ser una multa, prohibiciones o, en casos graves, la cárcel.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Public Space -->
+        <section id="espacio-publico" class="py-16 bg-gray-100 -mx-6 px-6">
+            <h2 class="section-title">El Espacio Público</h2>
+            <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-8 items-center">
+                <div>
+                    <img src="https://placehold.co/600x400/3498db/ffffff?text=Plaza+Pública" alt="Una plaza pública con gente" class="rounded-lg shadow-lg">
+                </div>
+                <div>
+                    <h3 class="text-2xl font-bold mb-4">Un Lugar de Encuentro para Todos</h3>
+                    <p class="text-gray-700 mb-4">Conformado por calles, plazas, parques, hospitales, escuelas y transportes, el espacio público es de todos y para todos. Nadie puede adueñarse de él.</p>
+                    <p class="text-gray-700">Su existencia, regulada por normas, es fundamental para el encuentro, la construcción de la identidad colectiva y la creación de lazos sociales fuertes. Su deterioro atenta contra la construcción de una mejor sociedad.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Legitimacy of Norms -->
+        <section id="legitimidad" class="py-16">
+            <h2 class="section-title">La Legitimidad de las Normas</h2>
+            <div class="max-w-3xl mx-auto">
+                <div class="timeline-item">
+                    <div class="timeline-dot bg-teal-500"></div>
+                    <div class="p-4 bg-white rounded-lg shadow-md">
+                        <h4 class="font-bold text-lg text-teal-600">Normas Sociales</h4>
+                        <p class="text-sm text-gray-600">Se legitiman a sí mismas. Son válidas porque la comunidad las acepta y repite, respondiendo a una necesidad concreta de orden y previsibilidad.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot bg-purple-500"></div>
+                    <div class="p-4 bg-white rounded-lg shadow-md">
+                        <h4 class="font-bold text-lg text-purple-600">Normas Morales</h4>
+                        <p class="text-sm text-gray-600">Hoy se legitiman por criterios racionales y el reconocimiento de la condición humana y sus derechos universales. En el pasado, se fundamentaban en el orden cósmico o la voluntad divina.</p>
+                    </div>
+                </div>
+                 <div class="timeline-item">
+                    <div class="timeline-dot bg-red-500"></div>
+                    <div class="p-4 bg-white rounded-lg shadow-md">
+                        <h4 class="font-bold text-lg text-red-600">Leyes (Normas Jurídicas)</h4>
+                        <p class="text-sm text-gray-600">Su legitimidad no depende de si nos gustan o no, sino de que hayan sido creadas siguiendo el proceso establecido en la Constitución. Un proceso válido las hace obligatorias para todos.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 6: Rights and Duties -->
+        <section id="derechos-deberes" class="py-16 bg-gray-100 -mx-6 px-6">
+            <h2 class="section-title">Las Dos Caras de las Normas: Derechos y Deberes</h2>
+            <p class="text-center max-w-3xl mx-auto mb-10 text-gray-600">Las normas tienen un doble carácter: determinan deberes y establecen derechos. Estos dos aspectos no pueden pensarse uno sin el otro.</p>
+            <div class="grid md:grid-cols-2 gap-8 items-center max-w-4xl mx-auto">
+                <div class="card text-center">
+                    <i class="fas fa-hand-holding-heart text-4xl text-green-600 mb-4"></i>
+                    <h3 class="text-2xl font-bold mb-2">Establecen Derechos</h3>
+                    <p class="text-gray-600 flex-grow">Cuando cumplimos con nuestros deberes, como ayudar a otros, se genera un derecho (no escrito) a recibir un trato recíproco. Reclamar por mejores condiciones de vida es reclamar por una sociedad mejor para todos.</p>
+                </div>
+                <div class="card text-center">
+                    <i class="fas fa-check-double text-4xl text-yellow-600 mb-4"></i>
+                    <h3 class="text-2xl font-bold mb-2">Determinan Deberes</h3>
+                    <p class="text-gray-600 flex-grow">Para hacer valer nuestro derecho a ser escuchados, tenemos el deber de respetar y luchar por la libre expresión de los demás. Conocer esta relación nos ayuda a cumplir las normas y a reclamar cuando nuestros derechos no se respetan.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quiz Section -->
+        <section id="quiz" class="py-16">
+            <div class="max-w-4xl mx-auto bg-white p-8 rounded-2xl shadow-xl">
+                 <h2 class="section-title">Pon a Prueba tu Conocimiento</h2>
+                 <div id="quiz-container" class="space-y-6">
+                     <div class="question-block" data-correct="2">
+                         <p class="font-bold text-lg mb-2">1. ¿Qué tipo de norma es ceder el asiento en el transporte público?</p>
+                         <div class="space-y-2">
+                             <button class="quiz-option">a) Jurídica</button>
+                             <button class="quiz-option">b) Moral</button>
+                             <button class="quiz-option">c) Social</button>
+                         </div>
+                     </div>
+                     <div class="question-block" data-correct="0">
+                         <p class="font-bold text-lg mb-2">2. La legitimidad de una ley en un sistema democrático depende de...</p>
+                         <div class="space-y-2">
+                             <button class="quiz-option">a) El respeto al proceso de elaboración que fija la Constitución.</button>
+                             <button class="quiz-option">b) Que todas las personas estén de acuerdo con ella.</button>
+                             <button class="quiz-option">c) Su publicación en redes sociales.</button>
+                         </div>
+                     </div>
+                     <div class="question-block" data-correct="1">
+                         <p class="font-bold text-lg mb-2">3. Un "escrache" público es un ejemplo de sanción...</p>
+                         <div class="space-y-2">
+                             <button class="quiz-option">a) Jurídica</button>
+                             <button class="quiz-option">b) Moral</button>
+                             <button class="quiz-option">c) Social</button>
+                         </div>
+                     </div>
+                 </div>
+                 <div id="quiz-results" class="hidden mt-6 text-center">
+                    <p class="text-2xl font-bold">Has completado el test.</p>
+                    <p class="text-lg">Tu puntaje: <span id="score" class="font-bold"></span>/<span id="total-questions" class="font-bold"></span></p>
+                    <button id="retry-quiz" class="mt-4 bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition">Intentar de nuevo</button>
+                 </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white text-center py-6">
+        <p>&copy; 2025 Página interactiva creada a partir del documento "Ciudadanía".</p>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Close mobile menu on link click
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // Quiz Logic
+        const quizContainer = document.getElementById('quiz-container');
+        const quizResults = document.getElementById('quiz-results');
+        const scoreEl = document.getElementById('score');
+        const totalQuestionsEl = document.getElementById('total-questions');
+        const retryButton = document.getElementById('retry-quiz');
+        
+        const questionBlocks = document.querySelectorAll('.question-block');
+        let score = 0;
+        let answeredQuestions = 0;
+
+        totalQuestionsEl.textContent = questionBlocks.length;
+
+        quizContainer.addEventListener('click', (e) => {
+            if (e.target.classList.contains('quiz-option')) {
+                const button = e.target;
+                const parentBlock = button.closest('.question-block');
+                if (parentBlock.hasAttribute('data-answered')) return; // Prevent re-answering
+
+                parentBlock.setAttribute('data-answered', 'true');
+                const selectedAnswerIndex = Array.from(parentBlock.querySelectorAll('.quiz-option')).indexOf(button);
+                const correctAnswerIndex = parseInt(parentBlock.dataset.correct);
+                
+                const options = parentBlock.querySelectorAll('.quiz-option');
+                
+                if (selectedAnswerIndex === correctAnswerIndex) {
+                    score++;
+                    button.classList.add('correct');
+                } else {
+                    button.classList.add('incorrect');
+                    options[correctAnswerIndex].classList.add('correct');
+                }
+                
+                answeredQuestions++;
+                if(answeredQuestions === questionBlocks.length) {
+                    setTimeout(showResults, 1000);
+                }
+            }
+        });
+
+        function showResults() {
+            quizResults.classList.remove('hidden');
+            scoreEl.textContent = score;
+        }
+
+        retryButton.addEventListener('click', () => {
+             score = 0;
+             answeredQuestions = 0;
+             quizResults.classList.add('hidden');
+             questionBlocks.forEach(block => {
+                block.removeAttribute('data-answered');
+                const options = block.querySelectorAll('.quiz-option');
+                options.forEach(opt => {
+                    opt.classList.remove('correct', 'incorrect');
+                });
+             });
+        });
+    </script>
+</body>
+</html>
