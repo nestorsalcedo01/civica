@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infografía: Las Reglas de la Ciudadanía en Argentina</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 550px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        .flowchart-step {
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .flowchart-step:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .flowchart-arrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            line-height: 1;
+            color: #4B5563;
+        }
+        .card {
+            background-color: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <header class="bg-[#3357FF] text-white p-8 shadow-lg text-center">
+        <h1 class="text-4xl md:text-5xl font-black tracking-tight">Las Reglas del Juego Social</h1>
+        <p class="mt-2 text-lg md:text-xl font-light">Una guía visual para entender la Ciudadanía en Argentina</p>
+    </header>
+
+    <main class="p-4 md:p-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+            <div class="md:col-span-2 lg:col-span-3 card flex flex-col md:flex-row items-center gap-6">
+                <div class="md:w-2/3">
+                    <h2 class="text-3xl font-bold text-[#3357FF]">¿Por qué vivimos según reglas?</h2>
+                    <p class="mt-2 text-base">La vida en sociedad necesita normas para funcionar. Son el lenguaje invisible que nos permite convivir en armonía, resolver conflictos y organizarnos. Sin ellas, reinaría el caos. Las normas son las herramientas que construyen nuestra comunidad, evolucionando desde las costumbres orales de nuestros ancestros hasta las constituciones modernas.</p>
+                </div>
+                <div class="md:w-1/3 text-center mt-4 md:mt-0">
+                    <div class="text-7xl font-black text-[#FF5733]">3</div>
+                    <p class="text-xl font-bold">Tipos de Normas<br>rigen tu vida diaria.</p>
+                </div>
+            </div>
+
+            <div class="lg:col-span-2 card">
+                <h2 class="text-xl font-bold text-center mb-4">Comparando el Universo de las Normas</h2>
+                <p class="text-center text-sm mb-4">No todas las reglas son iguales. Se diferencian por quién las impone, qué tan obligatorias son y cuál es el "castigo" por no cumplirlas. Entender sus diferencias es clave para saber cómo actuar en sociedad.</p>
+                <div class="chart-container mx-auto">
+                    <canvas id="normsChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="card">
+                 <h2 class="text-xl font-bold text-center mb-4">Tipos de Sanción</h2>
+                 <p class="text-center text-sm mb-6">El incumplimiento de una norma siempre tiene una consecuencia. La severidad y el tipo de sanción dependen de la regla que se rompió, yendo desde la vergüenza hasta una multa o prisión.</p>
+                 <div class="space-y-4">
+                     <div class="p-4 bg-gray-100 rounded-lg">
+                         <h3 class="font-bold text-[#FF5733]">Sanción Social</h3>
+                         <p class="text-sm">Aplicada por el grupo (familia, amigos). Puede ser una crítica, burla o la exclusión. Es la consecuencia de romper una costumbre.</p>
+                     </div>
+                     <div class="p-4 bg-gray-100 rounded-lg">
+                         <h3 class="font-bold text-[#F1C40F]">Sanción Moral</h3>
+                         <p class="text-sm">Es interna (culpa, remordimiento) y externa (repudio público, "escrache"). Castiga actos que van contra los valores de la comunidad.</p>
+                     </div>
+                     <div class="p-4 bg-gray-100 rounded-lg">
+                         <h3 class="font-bold text-[#3357FF]">Sanción Jurídica</h3>
+                         <p class="text-sm">Aplicada por el Estado. Es formal y obligatoria (multas, prisión). Es la única que puede usar la fuerza para cumplirse.</p>
+                     </div>
+                 </div>
+            </div>
+
+            <div class="card">
+                <h2 class="text-xl font-bold text-center mb-4">La Pirámide de las Leyes</h2>
+                <p class="text-center text-sm mb-4">En Argentina, las leyes tienen una jerarquía. Ninguna norma puede contradecir a una de rango superior. Esta "prelación" asegura un sistema jurídico ordenado y coherente, con la Constitución como ley suprema.</p>
+                 <div class="w-full max-w-sm mx-auto flex flex-col items-center space-y-1 text-white text-center font-bold text-sm">
+                    <div class="w-full bg-[#FF33A1] p-3 rounded-t-lg shadow-md">1. CONSTITUCIÓN NACIONAL<br>& Tratados DD.HH.</div>
+                    <div class="w-11/12 bg-[#FF5733] p-2 shadow-md">2. Otros Tratados Internacionales</div>
+                    <div class="w-10/12 bg-[#F1C40F] p-2 text-gray-800 shadow-md">3. Leyes Nacionales</div>
+                    <div class="w-9/12 bg-[#33FF57] p-2 text-gray-800 shadow-md">4. Decretos del Presidente</div>
+                    <div class="w-8/12 bg-[#3357FF] p-2 rounded-b-lg shadow-md">5. Leyes y Constituciones Provinciales</div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-2 card">
+                <h2 class="text-xl font-bold text-center mb-4">El Equilibrio de la Ciudadanía</h2>
+                <p class="text-center text-sm mb-4">Ser ciudadano es un balance. Por cada derecho que tenemos (Art. 14 de la Constitución), existe un deber correspondiente. No podemos exigir nuestros derechos si no cumplimos con nuestras obligaciones y no respetamos los derechos de los demás.</p>
+                <div class="chart-container mx-auto">
+                    <canvas id="rightsDutiesChart"></canvas>
+                </div>
+            </div>
+
+            <div class="md:col-span-2 lg:col-span-3 card">
+                <h2 class="text-2xl font-bold text-center text-[#3357FF]">El Camino para Crear una Ley</h2>
+                <p class="text-center text-sm mb-6 max-w-3xl mx-auto">Una ley es legítima no porque todos estén de acuerdo, sino porque sigue un proceso establecido en la Constitución. Este camino garantiza el debate democrático y evita la tiranía.</p>
+                <div class="grid grid-cols-1 md:grid-cols-7 items-center gap-4">
+                    <div class="flex-1 flowchart-step bg-gray-100 rounded-lg p-3 border-l-4 border-[#F1C40F]"><b>1. Iniciativa</b><br>Se presenta un proyecto en la "cámara de origen".</div>
+                    <div class="flowchart-arrow">→</div>
+                    <div class="flex-1 flowchart-step bg-gray-100 rounded-lg p-3 border-l-4 border-[#FF5733]"><b>2. Debate</b><br>Se discute y vota en Diputados y Senadores.</div>
+                    <div class="flowchart-arrow">→</div>
+                    <div class="flex-1 flowchart-step bg-gray-100 rounded-lg p-3 border-l-4 border-[#33FF57]"><b>3. Sanción</b><br>El Presidente la aprueba (promulga) o la rechaza (veta).</div>
+                    <div class="flowchart-arrow">→</div>
+                    <div class="flex-1 flowchart-step bg-gray-100 rounded-lg p-3 border-l-4 border-[#3357FF]"><b>4. Publicación</b><br>Se publica en el Boletín Oficial para que todos la conozcan.</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2 class="text-xl font-bold text-center mb-4">El Escenario de Todos</h2>
+                <p class="text-center text-sm mb-4">El espacio público (calles, plazas, parques, transporte) es donde construimos la comunidad. Su uso está regulado por normas para garantizar que todos podamos disfrutarlo de forma segura e inclusiva.</p>
+                <div class="grid grid-cols-2 gap-4 text-center">
+                    <div class="p-3 bg-gray-50 rounded-lg"><div class="text-3xl">🌳</div><span class="text-xs font-bold">Plazas y Parques</span></div>
+                    <div class="p-3 bg-gray-50 rounded-lg"><div class="text-3xl">🚌</div><span class="text-xs font-bold">Transporte</span></div>
+                    <div class="p-3 bg-gray-50 rounded-lg"><div class="text-3xl">🏫</div><span class="text-xs font-bold">Escuelas</span></div>
+                    <div class="p-3 bg-gray-50 rounded-lg"><div class="text-3xl">🏥</div><span class="text-xs font-bold">Hospitales</span></div>
+                </div>
+            </div>
+
+             <div class="lg:col-span-2 card">
+                <h2 class="text-xl font-bold text-center mb-4">¿Quién puede proponer una Ley?</h2>
+                 <p class="text-center text-sm mb-4">La Constitución permite que diferentes actores presenten proyectos (iniciativa), aunque en la práctica, la mayoría proviene del Poder Ejecutivo y de los propios legisladores.</p>
+                <div class="chart-container mx-auto">
+                    <canvas id="initiativeChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="md:col-span-2 lg:col-span-3 bg-[#3357FF] text-white p-8 rounded-xl shadow-lg text-center">
+                 <h2 class="text-3xl font-bold">Tu Rol como Ciudadano Activo</h2>
+                 <p class="mt-2 text-lg font-light max-w-3xl mx-auto">Conocer estas reglas te da poder. Te permite no solo cumplir las normas, sino también participar, exigir tus derechos con responsabilidad y trabajar para mejorar la sociedad. Un ciudadano informado es la base de una democracia fuerte y justa.</p>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        const wrapLabel = (str, maxWidth) => {
+            if (str.length <= maxWidth) {
+                return str;
+            }
+            const words = str.split(' ');
+            const lines = [];
+            let currentLine = '';
+            words.forEach(word => {
+                if ((currentLine + ' ' + word).trim().length > maxWidth) {
+                    lines.push(currentLine.trim());
+                    currentLine = word;
+                } else {
+                    currentLine = (currentLine + ' ' + word).trim();
+                }
+            });
+            if (currentLine) {
+                lines.push(currentLine.trim());
+            }
+            return lines;
+        };
+
+        const commonTooltipConfig = {
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        title: function(tooltipItems) {
+                            const item = tooltipItems[0];
+                            let label = item.chart.data.labels[item.dataIndex];
+                            if (Array.isArray(label)) {
+                              return label.join(' ');
+                            } else {
+                              return label;
+                            }
+                        }
+                    }
+                },
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        font: {
+                            size: 14
+                        }
+                    }
+                }
+            }
+        };
+
+        const commonOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            ...commonTooltipConfig
+        };
+
+        const normsCtx = document.getElementById('normsChart').getContext('2d');
+        new Chart(normsCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Social (Costumbre)', 'Moral (Valores)', 'Jurídica (Ley)'],
+                datasets: [{
+                    label: 'Grado de Obligatoriedad',
+                    data: [3, 6, 10],
+                    backgroundColor: '#FF5733',
+                    borderRadius: 5,
+                }, {
+                    label: 'Formalidad de la Sanción',
+                    data: [2, 5, 9],
+                    backgroundColor: '#3357FF',
+                    borderRadius: 5,
+                }]
+            },
+            options: {
+                ...commonOptions,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value, index, values) {
+                                if (value <= 3) return 'Baja';
+                                if (value <= 7) return 'Media';
+                                return 'Alta';
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    ...commonOptions.plugins,
+                    title: {
+                        display: true,
+                        text: 'Nivel de Obligatoriedad y Sanción por Tipo de Norma'
+                    }
+                }
+            }
+        });
+
+        const initiativeCtx = document.getElementById('initiativeChart').getContext('2d');
+        new Chart(initiativeCtx, {
+            type: 'pie',
+            data: {
+                labels: [
+                    wrapLabel('Poder Ejecutivo', 16),
+                    wrapLabel('Miembros del Congreso', 16),
+                    wrapLabel('Iniciativa Popular', 16)
+                ],
+                datasets: [{
+                    label: 'Origen de Proyectos de Ley (%)',
+                    data: [55, 44, 1],
+                    backgroundColor: [
+                        '#3357FF',
+                        '#FF5733',
+                        '#F1C40F'
+                    ],
+                    hoverOffset: 8
+                }]
+            },
+            options: commonOptions
+        });
+
+        const rightsDutiesCtx = document.getElementById('rightsDutiesChart').getContext('2d');
+        new Chart(rightsDutiesCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Derechos Garantizados', 'Deberes y Responsabilidades'],
+                datasets: [{
+                    label: 'Componentes de la Ciudadanía',
+                    data: [50, 50],
+                    backgroundColor: [
+                        '#33FF57',
+                        '#FF33A1'
+                    ],
+                    hoverOffset: 8,
+                    borderColor: '#fff',
+                    borderWidth: 4
+                }]
+            },
+            options: {
+                ...commonOptions,
+                cutout: '60%',
+                 plugins: {
+                    ...commonOptions.plugins,
+                    title: {
+                        display: true,
+                        text: 'Cada derecho implica un deber'
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
