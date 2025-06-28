@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Examen Interactivo: Ciudadanía</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" xintegrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+        }
+
+        .quiz-container {
+            background-color: white;
+            border-radius: 1rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            overflow: hidden;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            background-color: #e5e7eb;
+            border-radius: 9999px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(to right, #1e40af, #3b82f6);
+            transition: width 0.5s ease-in-out;
+            text-align: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .option-btn {
+            display: block;
+            width: 100%;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            text-align: left;
+            background-color: #f9fafb;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            transition: all 0.2s ease-in-out;
+            cursor: pointer;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            background-color: #dbeafe;
+            border-color: #93c5fd;
+            transform: translateY(-2px);
+        }
+
+        .option-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .option-btn.correct {
+            background-color: #dcfce7;
+            border-color: #4ade80;
+            color: #166534;
+            font-weight: bold;
+        }
+
+        .option-btn.incorrect {
+            background-color: #fee2e2;
+            border-color: #f87171;
+            color: #991b1b;
+            font-weight: bold;
+        }
+        
+        .explanation {
+            background-color: #fefce8;
+            border-left: 4px solid #facc15;
+            border-radius: 0.25rem;
+            padding: 1rem;
+            margin-top: 1.5rem;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="container mx-auto p-4 md:p-8 max-w-4xl">
+
+        <div id="quiz-container" class="quiz-container">
+            <div class="p-6 md:p-8">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl md:text-2xl font-bold text-gray-700">Examen de Ciudadanía</h2>
+                    <span id="question-counter" class="text-sm font-semibold text-gray-500"></span>
+                </div>
+                <div class="progress-bar-container h-2.5 mb-6">
+                    <div id="progress-bar" class="progress-bar h-2.5"></div>
+                </div>
+
+                <div id="question-area">
+                    <h3 id="question-text" class="text-xl md:text-2xl font-bold mb-6 text-gray-800 leading-snug"></h3>
+                    <div id="options-container"></div>
+                </div>
+                
+                <div id="explanation-area" class="hidden"></div>
+
+                <div class="mt-6 text-right">
+                    <button id="next-btn" class="hidden bg-blue-800 text-white font-bold py-2 px-8 rounded-lg hover:bg-blue-900 transition-transform transform hover:scale-105">Siguiente</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="results-container" class="hidden text-center bg-white p-8 rounded-xl shadow-lg">
+            <h2 class="text-4xl font-black mb-4">Resultados del Examen</h2>
+            <p id="score-text" class="text-2xl text-gray-700 mb-2">Obtuviste <span id="final-score" class="font-bold text-blue-600"></span> de <span id="total-questions"></span> respuestas correctas.</p>
+            <p id="feedback-text" class="text-lg font-semibold mb-6"></p>
+            <img id="result-image" src="" alt="Resultado" class="mx-auto w-48 h-48 mb-6 rounded-full shadow-lg">
+            <button id="retry-btn" class="bg-blue-800 text-white font-bold py-3 px-8 rounded-lg hover:bg-blue-900 transition-transform transform hover:scale-105">Reintentar Examen</button>
+        </div>
+
+    </div>
+
+    <script>
+        const questions = [
+            { question: "Según el texto, ¿cuál es la función principal de las normas en la sociedad?", answers: [{ text: "Garantizar la riqueza de la nobleza y los señores feudales.", correct: false }, { text: "Regular la vida comunitaria y posibilitar la convivencia armónica.", correct: true }, { text: "Establecer un sistema de castigos para quienes no siguen la moda.", correct: false }], explanation: "El documento indica claramente que las normas son reglas cuya función social es regular la vida comunitaria para lograr una convivencia armónica y controlar conductas perjudiciales." },
+            { question: "En los primeros grupos humanos, las normas se transmitían principalmente de forma:", answers: [{ text: "Escrita, a través de códigos grabados en piedra.", correct: false }, { text: "Oral y por costumbre, de generación en generación.", correct: true }, { text: "Digital, a través de mensajes de texto.", correct: false }], explanation: "El texto especifica que en los primeros grupos humanos, las normas eran transmitidas oralmente y por costumbre, relacionadas con necesidades materiales como alimento y protección." },
+            { question: "La aparición de normas escritas o códigos, como el de Hammurabi, respondió a la necesidad de:", answers: [{ text: "Organizar sociedades más complejas y controlar territorios más extensos.", correct: true }, { text: "Facilitar conversaciones de WhatsApp entre adolescentes.", correct: false }, { text: "Asegurar que todos tuvieran la misma licencia de conducir.", correct: false }], explanation: "A medida que los grupos crecían, la tradición oral no bastaba. Los códigos escritos se establecieron para organizar sociedades más grandes y complejas." },
+            { question: "El documento afirma que las normas son el resultado del conflicto entre la necesidad de organización y:", answers: [{ text: "La lucha por conseguir el auto prestado.", correct: false }, { text: "La dificultad de elegir qué ver en la televisión.", correct: false }, { text: "La lucha de los sectores sociales por imponer sus intereses al resto.", correct: true }], explanation: "El texto concluye que las normas son el resultado de un conflicto constante entre la necesidad de organización y la lucha de diferentes sectores por imponer su visión del mundo." },
+            { question: "¿Qué tipo de norma son los 'usos y costumbres' que una sociedad considera apropiados?", answers: [{ text: "Normas Jurídicas (Leyes).", correct: false }, { text: "Normas Sociales.", correct: true }, { text: "Normas Morales.", correct: false }], explanation: "El documento define las normas sociales, también llamadas usos y costumbres, como los modos de comportarse que una sociedad considera apropiados para la vida cotidiana." },
+            { question: "Dar el asiento a personas que lo necesitan en el transporte público en Argentina es un ejemplo de:", answers: [{ text: "Una norma jurídica con pena de cárcel.", correct: false }, { text: "Una norma social cuyo incumplimiento puede generar reproche.", correct: true }, { text: "Una norma moral que solo importa en Corea.", correct: false }], explanation: "El texto menciona explícitamente este caso como un ejemplo de norma social en la sociedad argentina, donde incumplirla puede traer una sanción informal como el enojo o reproche." },
+            { question: "Las normas que valoran las acciones humanas como 'buenas' o 'malas' son las:", answers: [{ text: "Normas Sociales.", correct: false }, { text: "Normas Morales.", correct: true }, { text: "Normas de Tránsito.", correct: false }], explanation: "Las normas morales son definidas como reglas de conducta y valoraciones que permiten a una persona actuar diferenciando lo correcto de lo incorrecto." },
+            { question: "Los 'criterios morales universales' se establecieron después de la Segunda Guerra Mundial con el objetivo de:", answers: [{ text: "Promover una única cultura en todo el mundo.", correct: false }, { text: "Evitar la violación de los derechos humanos a nivel global.", correct: true }, { text: "Decidir quién gana los partidos de fútbol.", correct: false }], explanation: "El recuadro 'PARA Ampliar' explica que estos criterios se establecieron para evitar la violación de los derechos humanos en todo el mundo, como reacción a las atrocidades de la guerra." },
+            { question: "A diferencia de las normas sociales y morales, las leyes son dictadas por:", answers: [{ text: "Un grupo de amigos en WhatsApp.", correct: false }, { text: "Una autoridad con poder para usar la fuerza si no se cumplen (el Estado).", correct: true }, { text: "La costumbre de cada familia.", correct: false }], explanation: "El texto es claro al señalar que las leyes son dictadas por una autoridad, el Estado, que tiene el poder de coerción para hacerlas cumplir." },
+            { question: "Una característica fundamental de las leyes es que son 'irretroactivas', lo que significa que:", answers: [{ text: "No se pueden aplicar a hechos que sucedieron antes de su puesta en vigencia.", correct: true }, { text: "Son opcionales y cada uno decide si cumplirlas.", correct: false }, { text: "Se aplican solo a las personas mayores de 18 años.", correct: false }], explanation: "La irretroactividad es una de las características principales de las leyes mencionadas en el documento, garantizando que nadie sea juzgado por una ley que no existía al momento del hecho." },
+            { question: "La ley suprema de un Estado, que ninguna otra ley puede contradecir, es:", answers: [{ text: "La ley de licencias de conducir.", correct: false }, { text: "El reglamento de un club de fútbol.", correct: false }, { text: "La Constitución.", correct: true }], explanation: "El texto afirma que 'La ley suprema de un Estado es su Constitución. En ella se encuentran los fundamentos de todas las leyes, y nunca una ley puede estar en contra de la Constitución'." },
+            { question: "Si una persona no saluda al llegar a su casa y recibe un llamado de atención de su familia, está recibiendo una:", answers: [{ text: "Sanción jurídica (multa).", correct: false }, { text: "Sanción social.", correct: true }, { text: "Sanción moral universal.", correct: false }], explanation: "Este es un ejemplo que el texto utiliza para ilustrar una sanción social, aplicada por el grupo más cercano (la familia) ante el incumplimiento de una norma de convivencia." },
+            { question: "Los 'escraches' a represores de la dictadura en Argentina son un ejemplo de:", answers: [{ text: "Una sanción jurídica aplicada por el Estado.", correct: false }, { text: "Una dura sanción moral por parte de la sociedad, aunque hubieran recibido un perdón legal.", correct: true }, { text: "Una norma social de saludo.", correct: false }], explanation: "El documento cita los escraches como un caso donde la sociedad impuso una sanción moral muy fuerte, demostrando que la falta a la moral puede ser castigada por la comunidad incluso cuando la sanción legal ha sido eludida." },
+            { question: "El incumplimiento de una ley de tránsito, como cruzar un semáforo en rojo, resulta en una:", answers: [{ text: "Sanción social, como el destrato.", correct: false }, { text: "Sanción jurídica, como una multa o algo más grave.", correct: true }, { text: "Sanción moral interna (culpa).", correct: false }], explanation: "El incumplimiento de las leyes siempre trae una sanción jurídica, que en el caso de las leyes de tránsito pueden ser multas, prohibiciones o hasta la cárcel." },
+            { question: "Las calles, plazas, hospitales y transportes son ejemplos de:", answers: [{ text: "Espacio privado.", correct: false }, { text: "Espacio público.", correct: true }, { text: "Espacio virtual.", correct: false }], explanation: "El texto define el espacio público como aquel conformado por calles, veredas, hospitales, escuelas, plazas, parques, etc., que todos pueden usar." },
+            { question: "Según el documento, la importancia del espacio público reside en que:", answers: [{ text: "Es un lugar para estacionar el auto.", correct: false }, { text: "Constituye un ámbito privilegiado para el encuentro, la construcción de la identidad colectiva y los lazos sociales.", correct: true }, { text: "Es exclusivo para personas con licencia de conducir.", correct: false }], explanation: "Se enfatiza que el espacio público es fundamental para el encuentro social, la humanización y la construcción de una mejor sociedad." },
+            { question: "¿Cómo se legitiman las normas sociales?", answers: [{ text: "Mediante su publicación en el Boletín Oficial.", correct: false }, { text: "A sí mismas, por su propia acción de regular la vida social y responder a una necesidad de la comunidad.", correct: true }, { text: "Porque fueron establecidas por Dios.", correct: false }], explanation: "El texto explica que las normas sociales se legitiman en su propia eficacia; si logran ordenar la vida social y responden a una necesidad, son consideradas válidas por la comunidad." },
+            { question: "En un sistema democrático, la legitimidad de una ley está asociada principalmente a:", answers: [{ text: "Que todas las personas estén de acuerdo con su contenido.", correct: false }, { text: "Que el proceso de elaboración y promulgación haya respetado lo que fija la Constitución.", correct:true }, { text: "Su popularidad en las redes sociales.", correct: false }], explanation: "La legitimidad de las leyes en una democracia no depende del consenso sobre su contenido, sino del respeto a los mecanismos institucionales establecidos en la Constitución para su creación." },
+            { question: "El documento plantea que los derechos y los deberes son:", answers: [{ text: "Conceptos totalmente separados e independientes.", correct: false }, { text: "Las dos caras de la misma moneda, con una relación de mutua correspondencia.", correct: true }, { text: "Algo que solo se aplica a los mayores de 18 años.", correct: false }], explanation: "Se subraya que las normas tienen un doble carácter: determinan deberes y establecen derechos, y que estos dos aspectos no pueden pensarse uno sin el otro." },
+            { question: "Hacer valer el derecho a ser escuchado exige también:", answers: [{ text: "Hablar más fuerte que los demás.", correct: false }, { text: "Luchar por la libre expresión de todas las demás personas.", correct: true }, { text: "Tener siempre la razón en una discusión.", correct: false }], explanation: "El texto concluye que el ejercicio de un derecho propio conlleva la responsabilidad de defender ese mismo derecho para los demás, ilustrando la conexión inseparable entre derechos y deberes." }
+        ];
+
+        const quizContainer = document.getElementById('quiz-container');
+        const resultsContainer = document.getElementById('results-container');
+        const questionArea = document.getElementById('question-area');
+        const questionText = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options-container');
+        const explanationArea = document.getElementById('explanation-area');
+        const nextBtn = document.getElementById('next-btn');
+        const retryBtn = document.getElementById('retry-btn');
+        const questionCounter = document.getElementById('question-counter');
+        const progressBar = document.getElementById('progress-bar');
+        
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let shuffledQuestions = [];
+
+        function startQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            resultsContainer.classList.add('hidden');
+            quizContainer.classList.remove('hidden');
+            nextBtn.classList.add('hidden');
+            shuffledQuestions = [...questions];
+            shuffleArray(shuffledQuestions);
+            showQuestion();
+        }
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        function showQuestion() {
+            resetState();
+            const currentQuestion = shuffledQuestions[currentQuestionIndex];
+            const questionNumber = currentQuestionIndex + 1;
+
+            questionText.innerText = currentQuestion.question;
+            questionCounter.innerText = `Pregunta ${questionNumber} de ${shuffledQuestions.length}`;
+            progressBar.style.width = `${(questionNumber / shuffledQuestions.length) * 100}%`;
+            
+            const shuffledAnswers = [...currentQuestion.answers];
+            shuffleArray(shuffledAnswers);
+
+            shuffledAnswers.forEach(answer => {
+                const button = document.createElement('button');
+                button.innerHTML = answer.text;
+                button.classList.add('option-btn');
+                if (answer.correct) {
+                    button.dataset.correct = true;
+                }
+                button.addEventListener('click', selectAnswer);
+                optionsContainer.appendChild(button);
+            });
+        }
+
+        function resetState() {
+            nextBtn.classList.add('hidden');
+            explanationArea.classList.add('hidden');
+            while (optionsContainer.firstChild) {
+                optionsContainer.removeChild(optionsContainer.firstChild);
+            }
+        }
+
+        function selectAnswer(e) {
+            const selectedBtn = e.target.closest('.option-btn');
+            const isCorrect = selectedBtn.dataset.correct === 'true';
+
+            if (isCorrect) {
+                score++;
+                selectedBtn.classList.add('correct');
+            } else {
+                selectedBtn.classList.add('incorrect');
+            }
+            
+            Array.from(optionsContainer.children).forEach(button => {
+                if (button.dataset.correct === 'true') {
+                    if(!button.classList.contains('correct')) button.classList.add('correct');
+                }
+                button.disabled = true;
+            });
+            
+            showExplanation();
+            if (currentQuestionIndex < shuffledQuestions.length - 1) {
+                nextBtn.classList.remove('hidden');
+            } else {
+                setTimeout(showResults, 2000); 
+            }
+        }
+
+        function showExplanation() {
+            const currentQuestion = shuffledQuestions[currentQuestionIndex];
+            explanationArea.innerHTML = `<p><strong class="font-bold text-gray-800">Explicación:</strong> ${currentQuestion.explanation}</p>`;
+            explanationArea.classList.remove('hidden');
+        }
+
+        function showResults() {
+            quizContainer.classList.add('hidden');
+            resultsContainer.classList.remove('hidden');
+            
+            const finalScoreEl = document.getElementById('final-score');
+            const totalQuestionsEl = document.getElementById('total-questions');
+            const feedbackText = document.getElementById('feedback-text');
+            const resultImage = document.getElementById('result-image');
+
+            finalScoreEl.innerText = score;
+            totalQuestionsEl.innerText = shuffledQuestions.length;
+
+            const percentage = (score / shuffledQuestions.length) * 100;
+            
+            feedbackText.classList.remove('text-green-600', 'text-blue-600', 'text-orange-500', 'text-red-500');
+
+            if (percentage >= 90) {
+                feedbackText.innerText = "¡Excelente! Demuestras un dominio completo del material del documento.";
+                resultImage.src = "https://placehold.co/200x200/22c55e/ffffff?text=¡Maestría!";
+                feedbackText.classList.add('text-green-600');
+            } else if (percentage >= 70) {
+                feedbackText.innerText = "¡Muy buen desempeño! Tienes un conocimiento sólido de los conceptos.";
+                resultImage.src = "https://placehold.co/200x200/3b82f6/ffffff?text=¡Avanzado!";
+                feedbackText.classList.add('text-blue-600');
+            } else if (percentage >= 50) {
+                feedbackText.innerText = "¡Bien hecho! Has entendido los conceptos principales. Un repaso te ayudará con los detalles.";
+                resultImage.src = "https://placehold.co/200x200/f97316/ffffff?text=¡Bien!";
+                feedbackText.classList.add('text-orange-500');
+            } else {
+                feedbackText.innerText = "Hay varios conceptos por reforzar. Te recomiendo leer el documento y las explicaciones para fortalecer tu aprendizaje.";
+                resultImage.src = "https://placehold.co/200x200/ef4444/ffffff?text=Repasar";
+                feedbackText.classList.add('text-red-500');
+            }
+        }
+
+        nextBtn.addEventListener('click', () => {
+            currentQuestionIndex++;
+            showQuestion();
+        });
+
+        retryBtn.addEventListener('click', startQuiz);
+
+        startQuiz();
+    </script>
+</body>
+
+</html>
