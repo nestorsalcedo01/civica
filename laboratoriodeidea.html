@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laboratorio de Ideas: Construyendo Ciudadanía</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" xintegrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f4f4f5; /* Zinc 100 */
+        }
+
+        .lab-container {
+            background-color: white;
+            border-radius: 1rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            overflow: hidden;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            background-color: #e5e7eb;
+            border-radius: 9999px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(to right, #4f46e5, #7c3aed); /* Indigo 600 a Purple 600 */
+            transition: width 0.5s ease-in-out;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            resize: vertical;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.3);
+        }
+        
+        .key-concepts {
+            background-color: #fefce8; /* Yellow 50 */
+            border-left: 4px solid #facc15; /* Yellow 400 */
+            border-radius: 0.25rem;
+            padding: 1rem;
+            margin-top: 1.5rem;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .key-concepts ul {
+            list-style-type: disc;
+            padding-left: 1.5rem;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container mx-auto p-4 md:p-8 max-w-4xl">
+
+        <div id="quiz-container" class="lab-container">
+            <div class="p-6 md:p-8">
+                <div class="text-center mb-6">
+                    <i class="fas fa-lightbulb text-4xl text-purple-600 mb-2"></i>
+                    <h2 class="text-3xl font-bold text-gray-800">Laboratorio de Ideas</h2>
+                    <p class="text-gray-500 mt-1">Aquí no hay opciones, solo tus ideas. Desarrolla tu respuesta y luego compárala con los conceptos clave.</p>
+                </div>
+                
+                <div class="flex justify-between items-center mb-4">
+                    <span id="prompt-counter" class="text-sm font-semibold text-gray-500"></span>
+                </div>
+                <div class="progress-bar-container h-2.5 mb-6">
+                    <div id="progress-bar" class="progress-bar h-2.5"></div>
+                </div>
+
+                <div id="prompt-area">
+                    <!-- El contenido del disparador se insertará aquí -->
+                </div>
+                
+                <div class="mt-6 text-right">
+                    <button id="next-btn" class="hidden bg-purple-600 text-white font-bold py-2 px-8 rounded-lg hover:bg-purple-700 transition-transform transform hover:scale-105">Siguiente Disparador</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="results-container" class="hidden text-center bg-white p-8 rounded-xl shadow-lg">
+            <h2 class="text-4xl font-black mb-4">¡Laboratorio Completado!</h2>
+            <p class="text-xl text-gray-700 mb-6">Has finalizado este ejercicio de reflexión y desarrollo. El verdadero aprendizaje está en el proceso de escribir y comparar tus ideas.</p>
+            <img src="https://placehold.co/200x200/7c3aed/ffffff?text=¡Gran+Trabajo!" alt="Ejercicio completado" class="mx-auto w-48 h-48 mb-6 rounded-full shadow-lg">
+            <button id="retry-btn" class="bg-purple-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-purple-700 transition-transform transform hover:scale-105">Repetir Laboratorio</button>
+        </div>
+
+    </div>
+
+    <script>
+        const prompts = [
+            { 
+                title: "El Origen y Evolución de las Normas",
+                prompt: "Explica con tus palabras el recorrido histórico de las normas que se describe en el texto. ¿Cómo y por qué cambiaron desde los primeros grupos humanos hasta la formación de los Estados modernos?",
+                keyConcepts: [
+                    "Comenzaron como <strong>costumbres orales</strong> para la supervivencia (alimento, protección).",
+                    "En sociedades complejas, surgieron <strong>códigos escritos</strong> (como el de Hammurabi) para organizar y controlar territorios extensos.",
+                    "En la <strong>Edad Media</strong>, las normas reflejaban la estructura feudal (tributos al señor).",
+                    "Con las <strong>monarquías absolutas</strong>, la fuente de la ley era la voluntad del rey.",
+                    "La <strong>burguesía</strong> impulsó revoluciones buscando igualdad y libertad, dando origen a los <strong>Estados modernos</strong> basados en Constituciones."
+                ]
+            },
+            { 
+                title: "Diferenciando los Tipos de Normas",
+                prompt: "Describe las tres clases de normas que menciona el texto (sociales, morales y jurídicas). Explica en qué se diferencian en cuanto a su origen, su obligatoriedad y el tipo de sanción que conllevan.",
+                keyConcepts: [
+                    "<strong>Normas Sociales:</strong> Origen en usos y costumbres. Sanción informal (reproche, exclusión).",
+                    "<strong>Normas Morales:</strong> Origen en valores colectivos sobre el bien y el mal. Sanción interna (culpa) y social (repudio).",
+                    "<strong>Normas Jurídicas (Leyes):</strong> Origen en el Estado. Son de cumplimiento <strong>obligatorio y coercitivo</strong>. Sanción formal (multa, prisión)."
+                ]
+            },
+            {
+                title: "La Legitimidad de una Ley",
+                prompt: "Según el documento, ¿de qué depende que una ley sea 'legítima' en una democracia? ¿Es necesario que todos estén de acuerdo con ella? Desarrolla tu respuesta.",
+                keyConcepts: [
+                    "La legitimidad <strong>no depende</strong> de que las personas estén de acuerdo con su contenido.",
+                    "Depende de que haya sido elaborada siguiendo el <strong>procedimiento establecido en la Constitución</strong>.",
+                    "Este respeto por el proceso institucional garantiza su validez y obligatoriedad para todos.",
+                    "La publicación en el <strong>Boletín Oficial</strong> es un paso final indispensable para su vigencia."
+                ]
+            },
+            {
+                title: "El Rol del Espacio Público",
+                prompt: "Más allá de ser un lugar de paso, ¿por qué es tan importante defender y cuidar el espacio público según lo que leíste? Explica su función en la construcción de la sociedad.",
+                keyConcepts: [
+                    "Es un ámbito de <strong>encuentro</strong> social fundamental.",
+                    "Permite la construcción de la <strong>identidad colectiva</strong> y los <strong>lazos sociales fuertes</strong>.",
+                    "Su deterioro atenta contra la posibilidad de 'pensar juntos y construir una mejor sociedad'.",
+                    "Nadie puede adueñarse de él, porque perdería su carácter de 'público'."
+                ]
+            },
+            {
+                title: "Derechos y Deberes: Las Dos Caras",
+                prompt: "Explica con un ejemplo la idea de que los derechos y los deberes son 'dos caras de la misma moneda'. ¿Por qué no pueden pensarse el uno sin el otro en la vida en sociedad?",
+                keyConcepts: [
+                    "Existe una <strong>mutua correspondencia</strong> entre ambos.",
+                    "Cada derecho reconocido a una persona implica un deber para los demás de respetarlo.",
+                    "Ejemplo: El derecho a ser escuchado exige el deber de escuchar y luchar por la libre expresión de los demás.",
+                    "Reclamar por mejores condiciones para uno mismo implica reclamar por una sociedad mejor para todos."
+                ]
+            },
+            {
+                title: "Caso Práctico: Sanciones en Acción",
+                prompt: "Imagina esta situación: Una persona se cuela en la fila del supermercado (1), miente a un amigo para no devolverle dinero que le debe (2) y luego estaciona su auto en un lugar para discapacitados (3). Describe qué tipo de norma incumple en cada caso y qué tipo de sanción podría recibir por cada acción, según el texto.",
+                keyConcepts: [
+                    "<strong>Acción 1 (colarse):</strong> Incumple una <strong>norma social</strong>. Recibiría una <strong>sanción social</strong> (reproches, miradas de desaprobación).",
+                    "<strong>Acción 2 (mentir):</strong> Incumple una <strong>norma moral</strong>. La sanción es <strong>moral</strong> (culpa interna, repudio o pérdida de la amistad).",
+                    "<strong>Acción 3 (estacionar mal):</strong> Incumple una <strong>norma jurídica</strong> (ley de tránsito). La sanción es <strong>jurídica</strong> (multa, remolque del vehículo)."
+                ]
+            }
+        ];
+
+        const quizContainer = document.getElementById('quiz-container');
+        const resultsContainer = document.getElementById('results-container');
+        const promptArea = document.getElementById('prompt-area');
+        const nextBtn = document.getElementById('next-btn');
+        const retryBtn = document.getElementById('retry-btn');
+        const promptCounter = document.getElementById('prompt-counter');
+        const progressBar = document.getElementById('progress-bar');
+        
+        let currentPromptIndex = 0;
+        let shuffledPrompts = [];
+
+        function startQuiz() {
+            currentPromptIndex = 0;
+            resultsContainer.classList.add('hidden');
+            quizContainer.classList.remove('hidden');
+            nextBtn.classList.add('hidden');
+            shuffledPrompts = [...prompts];
+            shuffleArray(shuffledPrompts);
+            showPrompt();
+        }
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        function showPrompt() {
+            promptArea.innerHTML = '';
+            const currentPrompt = shuffledPrompts[currentPromptIndex];
+            const promptNumber = currentPromptIndex + 1;
+
+            promptCounter.innerText = `Disparador ${promptNumber} de ${shuffledPrompts.length}`;
+            progressBar.style.width = `${(promptNumber / shuffledPrompts.length) * 100}%`;
+            
+            const promptTitle = document.createElement('h3');
+            promptTitle.className = 'text-xl md:text-2xl font-bold mb-2 text-gray-800';
+            promptTitle.innerText = currentPrompt.title;
+
+            const promptText = document.createElement('p');
+            promptText.className = 'text-gray-600 mb-4';
+            promptText.innerText = currentPrompt.prompt;
+            
+            const textArea = document.createElement('textarea');
+            textArea.placeholder = "Escribe tu desarrollo aquí...";
+            
+            const revealButton = document.createElement('button');
+            revealButton.innerText = "Revelar Conceptos Clave";
+            revealButton.className = "mt-4 bg-indigo-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-indigo-700 transition-colors";
+            
+            const keyConceptsDiv = document.createElement('div');
+            keyConceptsDiv.className = "key-concepts hidden";
+            const conceptsList = document.createElement('ul');
+            currentPrompt.keyConcepts.forEach(concept => {
+                const li = document.createElement('li');
+                li.innerHTML = concept;
+                conceptsList.appendChild(li);
+            });
+            keyConceptsDiv.innerHTML = '<h4 class="font-bold mb-2">Conceptos Clave a Considerar:</h4>';
+            keyConceptsDiv.appendChild(conceptsList);
+
+            promptArea.appendChild(promptTitle);
+            promptArea.appendChild(promptText);
+            promptArea.appendChild(textArea);
+            promptArea.appendChild(revealButton);
+            promptArea.appendChild(keyConceptsDiv);
+
+            revealButton.addEventListener('click', () => {
+                keyConceptsDiv.classList.remove('hidden');
+                revealButton.disabled = true;
+                revealButton.classList.add('opacity-50');
+                nextBtn.classList.remove('hidden');
+            });
+        }
+        
+        function showCompletionScreen() {
+            quizContainer.classList.add('hidden');
+            resultsContainer.classList.remove('hidden');
+        }
+
+        nextBtn.addEventListener('click', () => {
+            currentPromptIndex++;
+            if (currentPromptIndex < shuffledPrompts.length) {
+                nextBtn.classList.add('hidden');
+                showPrompt();
+            } else {
+                showCompletionScreen();
+            }
+        });
+
+        retryBtn.addEventListener('click', startQuiz);
+
+        startQuiz();
+    </script>
+</body>
+
+</html>
