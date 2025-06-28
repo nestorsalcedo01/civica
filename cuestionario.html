@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Examen Interactivo: Normas y Ciudadanía</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" xintegrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+        }
+
+        .quiz-container {
+            background-color: white;
+            border-radius: 1rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            overflow: hidden;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            background-color: #e5e7eb;
+            border-radius: 9999px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: #3b82f6;
+            transition: width 0.5s ease-in-out;
+            text-align: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .option-btn {
+            display: block;
+            width: 100%;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            text-align: left;
+            background-color: #f9fafb;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            transition: all 0.2s ease-in-out;
+            cursor: pointer;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            background-color: #dbeafe;
+            border-color: #93c5fd;
+        }
+
+        .option-btn:disabled {
+            cursor: not-allowed;
+        }
+
+        .option-btn.correct {
+            background-color: #dcfce7;
+            border-color: #4ade80;
+            color: #166534;
+            font-weight: bold;
+        }
+
+        .option-btn.incorrect {
+            background-color: #fee2e2;
+            border-color: #f87171;
+            color: #991b1b;
+            font-weight: bold;
+        }
+        
+        .explanation {
+            background-color: #fefce8; /* yellow-50 */
+            border: 1px solid #fde047; /* yellow-400 */
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-top: 1.5rem;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="container mx-auto p-4 md:p-8 max-w-4xl">
+
+        <div id="quiz-container" class="quiz-container">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-bold text-gray-700">Examen de Ciudadanía</h2>
+                    <span id="question-counter" class="text-sm font-semibold text-gray-500"></span>
+                </div>
+                <div class="progress-bar-container h-4 mb-6">
+                    <div id="progress-bar" class="progress-bar h-4"></div>
+                </div>
+
+                <div id="question-area">
+                    <h3 id="question-text" class="text-2xl font-bold mb-6 text-gray-800"></h3>
+                    <div id="options-container"></div>
+                </div>
+                
+                <div id="explanation-area" class="hidden"></div>
+
+                <div class="mt-6 text-right">
+                    <button id="next-btn" class="hidden bg-blue-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700 transition-colors">Siguiente</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="results-container" class="hidden text-center bg-white p-8 rounded-xl shadow-lg">
+            <h2 class="text-3xl font-black mb-4">Resultados del Examen</h2>
+            <p id="score-text" class="text-xl text-gray-700 mb-2">Obtuviste un <span id="final-score" class="font-bold"></span> de <span id="total-questions"></span>.</p>
+            <p id="feedback-text" class="text-lg font-semibold mb-6"></p>
+            <img id="result-image" src="" alt="Resultado" class="mx-auto w-48 h-48 mb-6">
+            <button id="retry-btn" class="bg-blue-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-blue-700 transition-colors">Reintentar Examen</button>
+        </div>
+
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "En una oficina, no existe una regla escrita sobre limpiar la cafetera, pero todos los empleados, por costumbre, la limpian después de usarla para evitar el desorden. Un nuevo empleado nunca la limpia, generando malestar y miradas de desaprobación de sus colegas. La conducta del nuevo empleado viola principalmente una norma:",
+                answers: [
+                    { text: "Jurídica, porque afecta el entorno laboral.", correct: false },
+                    { text: "Moral, porque es un acto de egoísmo.", correct: false },
+                    { text: "Social, porque rompe con un uso y costumbre aceptado por el grupo.", correct: true }
+                ],
+                explanation: "La respuesta correcta es 'Social'. Las normas sociales son usos y costumbres que una comunidad considera apropiados para la convivencia. No están escritas ni implican una sanción legal, pero su incumplimiento genera una sanción informal como el reproche o la exclusión, tal como las 'miradas de desaprobación' del ejemplo. No es una norma jurídica (no hay ley sobre cafeteras) ni principalmente moral (aunque podría tener un componente, su núcleo es la costumbre del grupo)."
+            },
+            {
+                question: "El Congreso de la Nación Argentina debate y sanciona una nueva ley de impuestos siguiendo todos los pasos constitucionales (iniciativa, comisiones, debate en ambas cámaras, promulgación). Sin embargo, la ley es extremadamente impopular y el 80% de la población la considera injusta. ¿Por qué esta ley es, a pesar de todo, legítima y obligatoria?",
+                answers: [
+                    { text: "Porque la legitimidad de una ley depende del respaldo popular y la aprobación de la mayoría.", correct: false },
+                    { text: "Porque fue elaborada respetando el procedimiento que establece la Constitución.", correct: true },
+                    { text: "Porque una vez publicada en el Boletín Oficial, ninguna ley puede ser cuestionada.", correct: false }
+                ],
+                explanation: "La respuesta correcta es la 'b'. En un sistema democrático, la legitimidad de una norma jurídica no reside en si nos gusta o si es popular, sino en la validez de su origen. Si la ley fue creada siguiendo el procedimiento formal establecido en la Constitución, es legítima y de cumplimiento obligatorio para todos, incluso para quienes se oponen a ella. Esto garantiza la seguridad jurídica y el Estado de derecho."
+            },
+            {
+                question: "Un grupo de ciudadanos organiza un 'escrache' frente a la casa de un funcionario público acusado de corrupción, gritando consignas y pegando carteles que lo tildan de 'ladrón'. Legalmente, el funcionario aún no ha sido condenado por la justicia. El 'escrache' es un claro ejemplo de:",
+                answers: [
+                    { text: "Sanción jurídica, aplicada por los ciudadanos en nombre del Estado.", correct: false },
+                    { text: "Sanción social, ya que es un reproche de un grupo de la comunidad.", correct: false },
+                    { text: "Sanción moral, porque la sociedad lo condena por una falta a la ética pública, independientemente del proceso legal.", correct: true }
+                ],
+                explanation: "La respuesta correcta es 'Moral'. Si bien tiene un componente social, el escrache es la manifestación más fuerte de una sanción moral. La sociedad, o una parte de ella, impone un castigo de repudio público por considerar que la persona violó gravemente los valores éticos colectivos (honestidad, bien común), más allá de que la sanción jurídica (la condena judicial) no haya llegado. No es jurídica porque no la aplica el Estado."
+            },
+            {
+                question: "Analizando la historia, ¿cuál fue el cambio más fundamental que permitió la transición de normas basadas en la voluntad de un rey a normas basadas en los derechos de los individuos?",
+                answers: [
+                    { text: "La creación de los primeros códigos escritos como el de Hammurabi.", correct: false },
+                    { text: "El surgimiento de la burguesía y las revoluciones que dieron origen a los Estados modernos y las Constituciones.", correct: true },
+                    { text: "El establecimiento de criterios morales universales después de la Segunda Guerra Mundial.", correct: false }
+                ],
+                explanation: "La respuesta correcta es la 'b'. Aunque los códigos escritos y los criterios universales fueron hitos importantes, el cambio de paradigma se produjo con el ascenso de la burguesía. Este grupo impulsó revoluciones que terminaron con las monarquías absolutas y establecieron los Estados modernos, cuya base ya no era la voluntad del rey, sino una Constitución que reconocía la igualdad y la libertad como derechos fundamentales de los ciudadanos."
+            },
+            {
+                question: "Un propietario de un departamento en un edificio tiene el derecho a escuchar música. Sin embargo, lo hace todos los días a un volumen extremadamente alto y hasta altas horas de la madrugada, afectando el descanso de sus vecinos. Según el concepto de 'abuso del derecho', su conducta es:",
+                answers: [
+                    { text: "Legítima, porque está ejerciendo su derecho de propiedad y libertad.", correct: false },
+                    { text: "Ilegítima, porque aunque tiene el derecho, lo ejerce de forma que perjudica los derechos de los demás (al descanso).", correct: true },
+                    { text: "Una falta moral, pero no tiene consecuencias legales.", correct: false }
+                ],
+                explanation: "La respuesta correcta es la 'b'. Este es un caso clásico de 'abuso del derecho'. Las leyes y los derechos no son absolutos. No se pueden ejercer de una manera que vaya en contra de su finalidad o que perjudique irrazonablemente a otros. El derecho a escuchar música termina donde empieza el derecho de los vecinos a descansar. Este abuso puede tener consecuencias legales (multas, orden judicial)."
+            },
+             {
+                question: "Un barrio cerrado construye un muro que impide el acceso a la orilla de un río que pasa por el fondo de sus terrenos, argumentando que es por seguridad. Los vecinos de la zona reclaman que ya no pueden ir a pescar. ¿Por qué el reclamo de los vecinos es válido?",
+                answers: [
+                    { text: "Porque la seguridad del barrio no puede prevalecer sobre las actividades recreativas.", correct: false },
+                    { text: "Porque la ribera de los ríos es considerada espacio público y nadie puede adueñarse de ella ni impedir su acceso.", correct: true },
+                    { text: "Porque el muro afecta el valor de las propiedades de los otros vecinos.", correct: false }
+                ],
+                explanation: "La respuesta correcta es la 'b'. El documento define el espacio público incluyendo 'la ribera de los ríos'. Estos espacios son de todos y su acceso debe estar garantizado. Ningún particular o grupo puede apropiarse de él o restringir su uso, convirtiéndolo en un espacio privado. El reclamo se fundamenta en la defensa del carácter público de ese espacio."
+            },
+            {
+                question: "Las normas establecen una relación de mutua correspondencia entre derechos y deberes. ¿Cuál es el deber fundamental que corresponde al derecho a la libertad de expresión?",
+                answers: [
+                    { text: "El deber de estar informado antes de opinar.", correct: false },
+                    { text: "El deber de no mentir.", correct: false },
+                    { text: "El deber de respetar que los demás también ejerzan su derecho a expresarse, incluso si sus opiniones son opuestas.", correct: true }
+                ],
+                explanation: "La respuesta correcta es la 'c'. El documento enfatiza que 'hacer valer el derecho a ser escuchado, por ejemplo, también exige que se luche por la libre expresión de todas las demás personas'. La esencia de la libertad de expresión en una sociedad plural es el deber de tolerar y respetar la expresión de los demás, por más que disintamos con ella. Las otras opciones son buenas prácticas, pero el deber fundamental es el respeto al derecho del otro."
+            }
+        ];
+
+        const quizContainer = document.getElementById('quiz-container');
+        const resultsContainer = document.getElementById('results-container');
+        const questionArea = document.getElementById('question-area');
+        const questionText = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options-container');
+        const explanationArea = document.getElementById('explanation-area');
+        const nextBtn = document.getElementById('next-btn');
+        const retryBtn = document.getElementById('retry-btn');
+        const questionCounter = document.getElementById('question-counter');
+        const progressBar = document.getElementById('progress-bar');
+        
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        function startQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            resultsContainer.classList.add('hidden');
+            quizContainer.classList.remove('hidden');
+            nextBtn.classList.add('hidden');
+            showQuestion();
+        }
+
+        function showQuestion() {
+            resetState();
+            const currentQuestion = questions[currentQuestionIndex];
+            const questionNumber = currentQuestionIndex + 1;
+
+            questionText.innerText = currentQuestion.question;
+            questionCounter.innerText = `Pregunta ${questionNumber} de ${questions.length}`;
+            progressBar.style.width = `${(questionNumber / questions.length) * 100}%`;
+            
+            currentQuestion.answers.forEach(answer => {
+                const button = document.createElement('button');
+                button.innerText = answer.text;
+                button.classList.add('option-btn');
+                if (answer.correct) {
+                    button.dataset.correct = true;
+                }
+                button.addEventListener('click', selectAnswer);
+                optionsContainer.appendChild(button);
+            });
+        }
+
+        function resetState() {
+            nextBtn.classList.add('hidden');
+            explanationArea.classList.add('hidden');
+            while (optionsContainer.firstChild) {
+                optionsContainer.removeChild(optionsContainer.firstChild);
+            }
+        }
+
+        function selectAnswer(e) {
+            const selectedBtn = e.target;
+            const isCorrect = selectedBtn.dataset.correct === 'true';
+
+            if (isCorrect) {
+                score++;
+                selectedBtn.classList.add('correct');
+            } else {
+                selectedBtn.classList.add('incorrect');
+            }
+            
+            Array.from(optionsContainer.children).forEach(button => {
+                if (button.dataset.correct === 'true') {
+                    if(!button.classList.contains('correct')) button.classList.add('correct');
+                }
+                button.disabled = true;
+            });
+            
+            showExplanation();
+            nextBtn.classList.remove('hidden');
+        }
+
+        function showExplanation() {
+            const currentQuestion = questions[currentQuestionIndex];
+            explanationArea.innerHTML = `<p><strong class="font-bold">Explicación:</strong> ${currentQuestion.explanation}</p>`;
+            explanationArea.classList.remove('hidden');
+        }
+
+        function showResults() {
+            quizContainer.classList.add('hidden');
+            resultsContainer.classList.remove('hidden');
+            
+            const finalScoreEl = document.getElementById('final-score');
+            const totalQuestionsEl = document.getElementById('total-questions');
+            const feedbackText = document.getElementById('feedback-text');
+            const resultImage = document.getElementById('result-image');
+
+            finalScoreEl.innerText = score;
+            totalQuestionsEl.innerText = questions.length;
+
+            const percentage = (score / questions.length) * 100;
+            if (percentage >= 80) {
+                feedbackText.innerText = "¡Excelente! Demuestras un profundo conocimiento de los conceptos.";
+                resultImage.src = "https://placehold.co/200x200/4ade80/ffffff?text=¡Genial!";
+            } else if (percentage >= 50) {
+                feedbackText.innerText = "¡Buen trabajo! Has entendido los conceptos clave, pero un repaso te vendría bien.";
+                resultImage.src = "https://placehold.co/200x200/60a5fa/ffffff?text=¡Bien!";
+            } else {
+                feedbackText.innerText = "Necesitas repasar. Te recomiendo volver a leer el material para afianzar los conceptos.";
+                resultImage.src = "https://placehold.co/200x200/f87171/ffffff?text=Repasar";
+            }
+        }
+
+        nextBtn.addEventListener('click', () => {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                showQuestion();
+            } else {
+                showResults();
+            }
+        });
+
+        retryBtn.addEventListener('click', startQuiz);
+
+        // Initial call
+        startQuiz();
+    </script>
+</body>
+
+</html>
